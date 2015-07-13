@@ -1,0 +1,138 @@
+-- dead reckoning for turtles
+
+local position = nil
+local face = nil
+
+local east = vector.new(1,0,0)
+local west = vector.new(-1,0,0)
+local north = vector.new(0,0,-1)
+local south = vector.new(0,0,1)
+local up = vector.new(0,1,0)
+local down = vector.new(0,-1,0)
+
+-- initialize the dead reckoner
+--	x is the mc coord x; longitude
+--		positive is east; negative is west
+--	z is the mc coord z; latitude
+--		positive is south; negative is north
+--	y is the mc coord y; elevation
+--		positive is up; negative is down
+--	f is the mc coord f; facing direction
+--		0 is south; 1 is west; 2 is north; 3 is east
+function initialize(number x, number y, number z, number f)
+	position = vector.new(x, y, z, f)
+	
+	if f == 0 then
+		face = south
+	if f == 1 then
+		face = west
+	if f == 2 then
+		face = north
+	if f == 3 then
+		face = east
+	end
+end
+
+-- gets the latitude
+--	positive is north; negative is south
+function lat()
+	return -position.z
+end
+
+-- gets the longitude
+--	positive is east; negative is west
+function lon()
+	return position.x
+end
+
+-- gets the elevation
+--	positive is up; negative is down
+function elv()
+	return position.y
+end
+
+-- handles the results of going forward
+function forward()
+	position = position + face
+end
+
+-- handles the results of going backward
+function backward()
+	position = position - face
+end
+
+-- handles the results of going up
+function up()
+	position = position + up
+end
+
+-- handles the results of going down
+function down()
+	position = position + down
+end
+
+-- a direction vector turned left
+function turn_left(vector v)
+	if v == east then
+		return north
+	if v == west then
+		return south
+	if v == north then
+		return west
+	if v == south then
+		return east
+	end
+end
+
+-- a direction vector turned right
+function turn_right(vector v)
+	if v == east then
+		return south
+	if v == west then
+		return north
+	if v == north then
+		return east
+	if v == south then
+		return west
+	end
+end
+
+-- handles the results of turning right
+function right()
+	face = turn_right(face)
+end
+
+-- handles the results of turning left
+function left()
+	face = turn_left(face)
+end
+
+-- gets the position of the block in front
+function get_forward()
+	return position + face
+end
+
+-- gets the position of the block in back
+function get_backward()
+	return position - face
+end
+
+-- gets the position of the block above
+function get_up()
+	return position + up
+end
+
+-- gets the position of the block below
+function get_down()
+	return position + down
+end
+
+-- gets the position of the block to the right
+function get_left()
+	return position + turn_left(face)
+end
+
+-- gets the position of the block to the left
+function get_right()
+	return position + turn_right(face)
+end
