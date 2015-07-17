@@ -51,6 +51,16 @@ function elv()
 	return position.y
 end
 
+-- gets the current position
+function get_position()
+	return position
+end
+
+-- gets the current facing direction
+function get_face()
+	return face
+end
+
 -- handles the results of going forward
 function forward()
 	position = position + face
@@ -137,12 +147,8 @@ function get_right()
 	return position + turn_right(face)
 end
 
--- gets the current position
-function get_position()
-	return position
-end
-
--- gets the current facing direction
-function get_face()
-	return face
+-- determines whether a given position vector is
+-- adjacent to the current position
+function is_adjacent(vector v)
+	return ((v - position).length() == 1)
 end
