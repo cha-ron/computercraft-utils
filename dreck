@@ -19,8 +19,8 @@ local down = vector.new(0,-1,0)
 --		positive is up; negative is down
 --	f is the mc coord f; facing direction
 --		0 is south; 1 is west; 2 is north; 3 is east
-function initialize(number x, number y, number z, number f)
-	position = vector.new(x, y, z, f)
+function initialize(x, y, z, f)
+	position = vector.new(x, y, z)
 	
 	if f == 0 then
 		face = south
@@ -82,7 +82,7 @@ function down()
 end
 
 -- a direction vector turned left
-function turn_left(vector v)
+function turn_left(v)
 	if v == east then
 		return north
 	elseif v == west then
@@ -95,7 +95,7 @@ function turn_left(vector v)
 end
 
 -- a direction vector turned right
-function turn_right(vector v)
+function turn_right(v)
 	if v == east then
 		return south
 	elseif v == west then
@@ -149,6 +149,6 @@ end
 
 -- determines whether a given position vector is
 -- adjacent to the current position
-function is_adjacent(vector v)
+function is_adjacent(v)
 	return ((v - position).length() == 1)
 end
